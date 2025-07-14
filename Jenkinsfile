@@ -1,19 +1,16 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven-3.9'
-    }
 
     stages {
         stage('Init') {
             steps {
                 script {
-                    gv = load 'script.groovy'  /
+                    gv = load 'script.groovy'
                 }
             }
         }
 
-        stage('Build Jar') {
+        stage('Build') {
             steps {
                 script {
                     gv.buildjar()
@@ -21,7 +18,7 @@ pipeline {
             }
         }
 
-        stage('Build Image') {
+        stage('Image') {
             steps {
                 script {
                     gv.buildimage()
