@@ -35,6 +35,10 @@ def cred() {
     sh 'git status'
     sh 'git branch'
 
+    sh 'git checkout main || git checkout -b main'
+
+   
+
     sh "git remote set-url origin https://${USER}:${PASS}@github.com/SahilBH1427/java-maven-app.git"
     sh 'git add . '
     sh 'git commit -m "ci:verion bump"'
