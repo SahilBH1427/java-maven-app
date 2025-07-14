@@ -5,7 +5,8 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the JAR file built by Maven
-COPY target/*.jar app.jar
+COPY target/java-maven-app-*.jar app.jar
 
 # Run the JAR
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD java -jar java-maven-app-*.jar
+
