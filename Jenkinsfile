@@ -1,48 +1,39 @@
-deg gv
-
 pipeline {
     agent any
     tools {
-        
-        maven 'maven-3.9' 
-    } 
-   stages {
-        stage('init') { 
-            steps {
-                script{
-                    scrpit{
-                        gv = load "script.groovy"
-                    }
-                    
-                }
-            }
-        }
+        maven 'maven-3.9'
+    }
+
     stages {
-        stage('Build jar') { 
+        stage('Init') {
             steps {
-                script{
-                    echo "bulding app "
+                script {
+                    gv = load 'script.groovy'  /
+                }
+            }
+        }
+
+        stage('Build Jar') {
+            steps {
+                script {
                     gv.buildjar()
-                   
                 }
             }
         }
-        stage('build iamge') { 
-            steps {  
-                script{
-                    echo "bulding image "
-                    gv.buildimage()
-                   
-                      
-                    }
-                }
-            }
-        }
-        stage('Deploy') { 
+
+        stage('Build Image') {
             steps {
-                 scrpit{
-                     gv.deploy()
-                 }
+                script {
+                    gv.buildimage()
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    gv.deploy()
+                }
             }
         }
     }
