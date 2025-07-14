@@ -18,6 +18,13 @@ pipeline {
                 }
             }
         }
+        stage('increment version'){
+            steps {
+                script{
+                    gv.incr()
+                }
+            }
+        }
 
         stage('Build') {
             steps {
@@ -40,6 +47,13 @@ pipeline {
                 script {
                     gv.deploy()
                 }
+            }
+        }
+        stage('commit verion update'){
+            steps{
+                 script{
+                    gv.cred()
+                 }
             }
         }
     }
