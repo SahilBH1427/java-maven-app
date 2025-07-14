@@ -1,32 +1,48 @@
+deg gv
+
 pipeline {
     agent any
     tools {
         
         maven 'maven-3.9' 
     } 
+   stages {
+        stage('init') { 
+            steps {
+                script{
+                    scrpit{
+                        gv = load "script.groovy"
+                    }
+                    
+                }
+            }
+        }
     stages {
         stage('Build jar') { 
             steps {
                 script{
                     echo "bulding app "
-                    sh 'mvn package'
+                    gv.buildjar()
+                   
                 }
             }
         }
         stage('build iamge') { 
-            steps {
-           
-                echo 'bulding the docekr image'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_repo',passwordVariable: 'PASS' ,usernameVariable: 'USER')]){
-                   sh 'docker build -t sahilf5/demoapp:jma-2.0 .'
-                   sh 'echo $PASS | docker login -u $USER --password-stdin '
-                   sh 'docker push sahilf5/demoapp:jma-2.0'
+            steps {  
+                script{
+                    echo "bulding image "
+                    gv.buildimage()
+                   
+                      
+                    }
                 }
             }
         }
         stage('Deploy') { 
             steps {
-                 echo 'de pppppppp'
+                 scrpit{
+                     gv.deploy
+                 }
             }
         }
     }
