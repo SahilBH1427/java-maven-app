@@ -1,18 +1,18 @@
 def gv
 pipeline {
     agent any
-    tools{
+    tools {
         maven 'maven-3.9'
     }
 
     stages {
         stage('Init') {
-            steps {
-                when {
-                    expression {
-                        BRANCH_NAME == 'master'
-                    }
+            when {
+                expression {
+                    env.BRANCH_NAME == 'master'
                 }
+            }
+            steps {
                 script {
                     gv = load 'script.groovy'
                 }
