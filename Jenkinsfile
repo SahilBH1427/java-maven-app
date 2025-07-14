@@ -1,14 +1,26 @@
 pipeline {
-    agent any 
+    agent any
+    tools{
+        'maven-3.9' 
+    } 
     stages {
-        stage('Build') { 
+        stage('Build jar') { 
             steps {
-                echo 'buling'
+                script{
+                    echo "bulding app "
+                    sh 'mvn package'
+                }
             }
         }
-        stage('Test') { 
+        stage('build iamge') { 
             steps {
-                echo 'testing bbbbb'
+           
+                echo 'bulding the docekr image'
+                withCredentials([usernamePassword(credentialsId: 'dcoker-hub-repo',passwordVariable: 'PASS' ,usernameVariable: 'USER')]){
+                   sh 'docker build -t sahilf5/demoapp:jma-2.0 .'
+                   sh 'echo $PASS | dockerlogin -u $USER --paswsword--stdin '
+                   sh 'docker push sahilf5/demoapp:jma-2.0'
+                }
             }
         }
         stage('Deploy') { 
