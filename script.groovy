@@ -28,7 +28,7 @@ def deploy() {
   
 }
 def cred() {
-  withCredentials([usernamePassword(credentialsId: 'githubid',passwordVariable: 'PASS' ,usernameVariable: 'USER')]){
+  withCredentials([usernamePassword(credentialsId: 'github_repo',passwordVariable: 'PASS' ,usernameVariable: 'USER')]){
     sh 'git config --global user.email "jenkins@gmail.com"'
     sh 'git config --global user.name "jenkins"'
 
