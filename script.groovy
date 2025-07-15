@@ -40,6 +40,7 @@ def cred() {
    
 
     sh '''git remote set-url origin https://$USER:$PASS@github.com/SahilBH1427/java-maven-app.git'''
+    sh 'git pull --ff-only origin main'
 
     sh 'git add . '
     sh 'git commit -m "ci:verion bump"'
