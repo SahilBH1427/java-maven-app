@@ -28,22 +28,28 @@ def deploy() {
   
 }
 def cred() {
-  withCredentials([usernamePassword(credentialsId: 'github_repo',passwordVariable: 'PASS' ,usernameVariable: 'USER')]){
+  withCredentials([usernamePassword(credentialsId: 'github_repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
     sh 'git config --global user.email "jenkins@gmail.com"'
     sh 'git config --global user.name "jenkins"'
 
-    sh 'git reset --hard'
-    sh 'git clean -fd
-    sh 'git checkout main || git checkout -b main'
+    // Clean workspace to avoid local changes interfering
+    sh '''
+      git reset --hard
+      git clean -fd
+    '''
 
-    
+    // Checkout main branch
+    sh '''
+      git checkout main || git checkout -b main
+    '''
 
-   
+    // Update remote URL with credentials
+    sh '''
+      git remote set-url origin https://$USER:$PASS@github.com/SahilBH1427/java-maven-app.git
+      git pull origin main --rebase
+    '''
 
-    sh '''git remote set-url origin https://$USER:$PASS@github.com/SahilBH1427/java-maven-app.git'''
-    sh 'git pull origin main --rebase'
-
-     // Commit and push if changes exist
+    // Add, commit, and push changes if any
     sh '''
       git add .
       git diff --cached --quiet || git commit -m "ci: version bump"
