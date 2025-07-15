@@ -32,19 +32,23 @@ def cred() {
     sh 'git config --global user.email "jenkins@gmail.com"'
     sh 'git config --global user.name "jenkins"'
 
-    sh 'git status'
-    sh 'git branch'
-
+    sh 'git reset --hard'
+    sh 'git clean -fd
     sh 'git checkout main || git checkout -b main'
+
+    
 
    
 
     sh '''git remote set-url origin https://$USER:$PASS@github.com/SahilBH1427/java-maven-app.git'''
-    sh 'git pull --ff-only origin main'
+    sh 'git pull origin main --rebase'
 
-    sh 'git add . '
-    sh 'git commit -m "ci:verion bump"'
-    sh 'git push origin HEAD:main'
+     // Commit and push if changes exist
+    sh '''
+      git add .
+      git diff --cached --quiet || git commit -m "ci: version bump"
+      git push origin main
+    '''
   }
 }
 
